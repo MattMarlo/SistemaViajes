@@ -24,7 +24,7 @@
                 <h5 class="card-title mb-1">Administrar Usuarios</h5>
                 <p class="text-muted mb-0">Gestiona y administra todos los usuarios del sistema</p>
               </div>
-              <a href="#" class="btn btn-primary">
+              <a href="{{route('usuarios.create')}}" class="btn btn-primary">
                 <i class="fa-solid fa-circle-plus me-2"></i> Agregar Nueva Usuario
               </a>
             </div>

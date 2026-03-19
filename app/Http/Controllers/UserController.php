@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Exception;
 
 class UserController extends Controller
 {
@@ -22,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $titulo='Crear usuarios';
+        return view('modules.usuarios.create',compact('titulo'));
     }
 
     /**
@@ -30,7 +32,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $item=new User();
+            $item->nombres=$request->nombres;
+            $item->apellidos=$request->apellidos;
+            $item->email=$request->email;
+            $item->telefono=$request->telefono;
+            $item->documento=$request->documento;
+            $item->rol=$request->rol;
+            $item->password=$request->password;
+            $item->save();
+            return to_route('usuarios')->with('success','Usuario agregado éxitosamente');
+        }catch(Exception $e){
+            return to_route('usuarios')->with('error','No se pudo agregar el usuario'.$e->getMessage());
+        }
     }
 
     /**
