@@ -183,7 +183,7 @@
     <ul class="nav-list flex-column mb-auto">
         <li><a href="#" class="nav-link "><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
         <li><a href="{{route('usuarios')}}" class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}"><i class="bi bi-people-fill"></i><span>Usuarios</span></a></li>
-        <li><a href="#" class="nav-link"><i class="bi bi-person-circle"></i><span>Clientes</span></a></li>
+        <li><a href="{{route('clientes')}}" class="nav-link {{ request()->routeIs('clientes*') ? 'active' : '' }}"><i class="bi bi-person-circle"></i><span>Clientes</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-briefcase"></i><span>Reservas</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-wallet2"></i><span>Pagos</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-cpu"></i><span>Automatización</span></a></li>
