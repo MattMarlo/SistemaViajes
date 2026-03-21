@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Reserva;
+use App\Models\Pago;
 
 class User extends Authenticatable
 {
@@ -41,5 +43,14 @@ class User extends Authenticatable
     const ROL_ADMIN = 'admin';
     const ROL_AGENTE = 'agente';
 
+   
+    public function reservas(){
+       return $this->hasMany(Reserva::class, 'users_id');
+    }
+
+    
+    public function pagos(){
+        return $this->hasMany(Pago::class, 'users_id');
+    }
     
 }

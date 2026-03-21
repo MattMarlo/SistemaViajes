@@ -13,7 +13,7 @@
         :root {
             --sidebar-width: 280px;
             --sidebar-collapsed-width: 85px;
-            --primary-color: #2563eb;
+            --primary-color: #2553eb;
             --bg-body: #f8fafc;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -174,7 +174,7 @@
 
 <div id="sidebar" class="sidebar">
     <div class="logo-container">
-        <span class="logo-text">TravelManager</span>
+        <span class="logo-text">Passion Travel</span>
         <button class="btn btn-sm btn-light d-none d-md-block" onclick="toggleSidebar()">
             <i class="bi bi-chevron-left"></i>
         </button>
@@ -184,6 +184,8 @@
         <li><a href="#" class="nav-link "><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
         <li><a href="{{route('usuarios')}}" class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}"><i class="bi bi-people-fill"></i><span>Usuarios</span></a></li>
         <li><a href="{{route('clientes')}}" class="nav-link {{ request()->routeIs('clientes*') ? 'active' : '' }}"><i class="bi bi-person-circle"></i><span>Clientes</span></a></li>
+        <li><a href="{{route('destinos')}}" class="nav-link {{ request()->routeIs('destinos*') ? 'active' : '' }}"><i class="bi bi-airplane"></i><span>Destinos</span></a></li>
+        <li><a href="{{route('reservas')}}" class="nav-link {{ request()->routeIs('reservas*') ? 'active' : '' }}"><i class="bi bi-calendar-fill"></i><span>Reservas</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-briefcase"></i><span>Reservas</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-wallet2"></i><span>Pagos</span></a></li>
         <li><a href="#" class="nav-link"><i class="bi bi-cpu"></i><span>Automatización</span></a></li>

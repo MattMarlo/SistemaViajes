@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DestinoController;
 use App\Models\Cliente;
 use GuzzleHttp\Client;
 
@@ -26,3 +27,19 @@ Route::prefix('clientes')->group(function() {
     Route::get('/edit/{id}', [ClienteController::class, 'edit'])->name('clientes.edit');
     Route::put('/update/{id}', [ClienteController::class, 'update'])->name('clientes.update');
 });
+Route::prefix('destinos')->group(function() {
+    Route::get('/', [DestinoController::class, 'index'])->name('destinos');
+    Route::get('/create', [DestinoController::class, 'create'])->name('destinos.create');
+    Route::post('/store', [DestinoController::class, 'store'])->name('destinos.store');
+    Route::delete('/destroy/{id}', [DestinoController::class, 'destroy'])->name('destinos.destroy');
+    Route::get('/edit/{id}', [DestinoController::class, 'edit'])->name('destinos.edit');
+    Route::put('/update/{id}', [DestinoController::class, 'update'])->name('destinos.update');
+});
+Route::prefix('reservas')->group(function() {
+    Route::get('/', [DestinoController::class, 'index'])->name('reservas');
+    Route::get('/create', [DestinoController::class, 'create'])->name('reservas.create');
+    Route::post('/store', [DestinoController::class, 'store'])->name('reservas.store');
+    
+});
+
+

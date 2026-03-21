@@ -17,7 +17,19 @@ class Cliente extends Model
         'documento',
         'estado',
     ];
-    //public function reservas(){
-        //return $this->hasMany(Reserva::Class,'cliente_id');
-    //}
+    // Relación: un cliente tiene muchas reservas
+    public function reservas(){
+        return $this->hasMany(Reserva::class,'cliente_id');
+    }
+    // Relación: muchos a muchos con grupos
+    public function grupos(){
+    return $this->belongsToMany(Grupo::class, 'grupo_cliente', 'cliente_id', 'grupo_id')
+                ->withPivot('monto_asignado', 'es_lider');
+    }
+    // Pagos realizados por el cliente
+    public function pagos(){
+        return $this->hasMany(Pago::class, 'cliente_id');
+    }
+
+    
 }
