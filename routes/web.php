@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DestinoController;
+use App\Http\Controllers\ReservaController;
 use App\Models\Cliente;
+use App\Models\Reserva;
 use GuzzleHttp\Client;
 
 Route::get('/', function () {
@@ -36,9 +38,9 @@ Route::prefix('destinos')->group(function() {
     Route::put('/update/{id}', [DestinoController::class, 'update'])->name('destinos.update');
 });
 Route::prefix('reservas')->group(function() {
-    Route::get('/', [DestinoController::class, 'index'])->name('reservas');
-    Route::get('/create', [DestinoController::class, 'create'])->name('reservas.create');
-    Route::post('/store', [DestinoController::class, 'store'])->name('reservas.store');
+    Route::get('/', [ReservaController::class, 'index'])->name('reservas');
+    Route::get('/create', [ReservaController::class, 'create'])->name('reservas.create');
+    Route::post('/store', [ReservaController::class, 'store'])->name('reservas.store');
     
 });
 
