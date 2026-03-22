@@ -57,7 +57,7 @@ Route::prefix('reservas')->group(function() {
 // Flujo Individual
 Route::prefix('reservas_individual')->group(function () {
     Route::get('/create', [ReservaIndividualController::class, 'create'])->name('reservas_individual.create');
-    Route::post('/store', [ReservaIndividualController::class, 'store'])->name('reservas_inidividual.store');
+    Route::post('/store', [ReservaIndividualController::class, 'store'])->name('reservas_individual.store');
 });
 
 // Flujo Grupal
