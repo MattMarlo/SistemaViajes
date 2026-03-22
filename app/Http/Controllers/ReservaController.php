@@ -14,6 +14,8 @@ class ReservaController extends Controller
         $titulo='Reservas';
         $reservas=DB::table('reservas as r')
             ->select(
+                'r.id',
+                'r.codigo_reserva',
                 'r.tipo',
                 'c.nombres',
                 'c.apellidos',
@@ -21,7 +23,7 @@ class ReservaController extends Controller
                 'r.fecha_viaje',
                 'r.precio_total_viaje',
                 'r.estado',
-                'r.estado_viaje'
+                'r.estado_pago'
             )
             ->join('clientes as c','r.cliente_id','=','c.id')
             ->join('destinos as d','r.destino_id','=','d.id')
@@ -77,4 +79,6 @@ class ReservaController extends Controller
     {
         //
     }
+     
+    
 }

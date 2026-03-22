@@ -3,10 +3,15 @@
 @section('content')
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Gestión de Reservas</h2>
-        <a href="{{ route('reservas.create') }}" class="btn btn-primary fw-bold">
-            <i class="bi bi-plus-lg"></i> Nueva Reserva
-        </a>
+    <h2 class="fw-bold">Gestión de Reservas</h2>
+    <div class="d-flex gap-2">
+            <a href="{{ route('reservas_individual.create') }}" class="btn btn-primary fw-bold">
+                <i class="bi bi-plus-lg"></i> Reserva Individual
+            </a>
+            <a href="{{ route('reservas_grupal.create') }}" class="btn btn-success fw-bold">
+                <i class="bi bi-people"></i> Reserva Grupal
+            </a>
+        </div>
     </div>
 
     @if (session('success'))
@@ -27,27 +32,31 @@
             <table class="table table-hover mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>ID / Código</th>
+                        <th>ID</th>
+                        <th>Código</th>
                         <th>Cliente Titular</th>
                         <th>Destino</th>
                         <th>Tipo Viaje</th>
                         <th>Fecha Viaje</th>
-                        <th>Monto Total</th>
-                        <th>Estado Pago</th>
+                        <th>Precio Total</th>
+                        <th>Estado Reserva </th>
+                        <th>Pago </th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($reservas as $res)
                     <tr>
+                        <td class="fw-bold">{{ $res->id }}</td>
                         <td class="fw-bold">{{ $res->codigo_reserva }}</td>
                         
-                        <td>{{ $res->cliente_nombre }} {{ $res->cliente_apellido }}</td>
-                        <td><span class="badge bg-secondary">{{ $res->destino_etiqueta }}</span></td>
-                        <td><span class="text-capitalize">{{ $res->tipo_viaje }}</span></td>
+                        <td>{{ $res->nombres }} {{ $res->apellidos }}</td>
+                        <td><span class="badge bg-secondary">{{ $res->pais }}</span></td>
+                        <td><span class="text-capitalize">{{ $res->tipo }}</span></td>
                         
                         <td>{{ \Carbon\Carbon::parse($res->fecha_viaje)->format('d/m/Y') }}</td>
                         <td class="text-success fw-bold">€{{ number_format($res->precio_total_viaje, 2) }}</td>
+                        <td><span class="text-capitalize">{{ $res->estado }}</span></td>
                         
                         <td>
                             @if($res->estado_pago == 'pagado') 
@@ -59,7 +68,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('pagos.index', $res->id) }}" class="btn btn-sm btn-outline-primary">
+                            <a href="#" class="btn btn-sm btn-outline-primary">
                                 Ver / Pagar
                             </a>
                         </td>

@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DestinoController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\ReservaIndividualController;
+use App\Http\Controllers\ReservaGrupalController;
 use App\Models\Cliente;
 use App\Models\Reserva;
 use GuzzleHttp\Client;
@@ -37,11 +40,32 @@ Route::prefix('destinos')->group(function() {
     Route::get('/edit/{id}', [DestinoController::class, 'edit'])->name('destinos.edit');
     Route::put('/update/{id}', [DestinoController::class, 'update'])->name('destinos.update');
 });
+Route::prefix('grupos')->group(function() {
+    Route::get('/', [GrupoController::class, 'index'])->name('grupos');
+    Route::get('/create', [GrupoController::class, 'create'])->name('grupos.create');
+    Route::post('/store', [GrupoController::class, 'store'])->name('grupos.store');
+    Route::delete('/destroy/{id}', [GrupoController::class, 'destroy'])->name('grupos.destroy');
+    Route::get('/edit/{id}', [GrupoController::class, 'edit'])->name('grupos.edit');
+    Route::put('/update/{id}', [GrupoController::class, 'update'])->name('grupos.update');
+});
 Route::prefix('reservas')->group(function() {
     Route::get('/', [ReservaController::class, 'index'])->name('reservas');
-    Route::get('/create', [ReservaController::class, 'create'])->name('reservas.create');
-    Route::post('/store', [ReservaController::class, 'store'])->name('reservas.store');
-    
+    //Route::get('/create', [ReservaController::class, 'create'])->name('reservas.create');
+    //Route::post('/store', [ReservaController::class, 'store'])->name('reservas.store'); 
 });
+
+// Flujo Individual
+Route::prefix('reservas_individual')->group(function () {
+    Route::get('/create', [ReservaIndividualController::class, 'create'])->name('reservas_individual.create');
+    Route::post('/store', [ReservaIndividualController::class, 'store'])->name('reservas_inidividual.store');
+});
+
+// Flujo Grupal
+Route::prefix('reservas_grupal')->group(function () {
+    Route::get('/create', [ReservaGrupalController::class, 'create'])->name('reservas_grupal.create');
+    Route::post('/store', [ReservaGrupalController::class, 'store'])->name('reservas_grupal.store');
+});
+
+
 
 
