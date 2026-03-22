@@ -16,7 +16,7 @@ class Reserva extends Model
         'cliente_id',
         'grupo_id',
         'destino_id',
-        'usuario_id',
+        'user_id',
         'tipo',
         'fecha_reserva',
         'fecha_viaje',
@@ -28,6 +28,10 @@ class Reserva extends Model
     public function cliente(){
         return $this->belongsTo(Cliente::class,'cliente_id');
     }
+    public function reservaGrupo() {
+        return $this->hasOne(ReservaGrupo::class, 'reserva_id');
+    }
+    
     public function grupo(){
         return $this->belongsTo(Grupo::class,'grupo_id');
 
@@ -37,7 +41,7 @@ class Reserva extends Model
         
     }
     public function user(){
-        return $this->belongsTo(User::class,'users_id');
+        return $this->belongsTo(User::class,'user_id');
         
     }
     public function pago(){

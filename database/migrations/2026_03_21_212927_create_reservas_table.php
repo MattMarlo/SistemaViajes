@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('codigo_reserva',100);
             $table->foreignId('cliente_id')->constrained('clientes')->restrictOnDelete();
-            $table->foreignId('grupo_id')->constrained('grupos')->restrictOnDelete();
             $table->foreignId('destino_id')->constrained('destinos')->restrictOnDelete();
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->enum('tipo',['individual','grupal'])->default('individual');

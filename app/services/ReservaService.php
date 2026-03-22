@@ -3,62 +3,60 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 class ReservaService
 {
     /**
      * Lógica para guardar la reserva INDIVIDUAL
      */
-    public function guardarIndividual($datos, $usuario_id)
+    public function guardarIndividual($datos)
     {
         $codigo_reserva = $this->generarCodigo();
-        $fecha_actual = now()->format('Y-m-d H:i:s');
+        $fecha_actual = Carbon::now();
 
-        return DB::transaction(function () use ($datos, $usuario_id, $codigo_reserva, $fecha_actual) {
-            
+        return DB::transaction(function () use ($datos, $codigo_reserva, $fecha_actual) {
+            $usuario_id = $datos['user_id'] ?? null;
+            $estado_reserva = $datos['estado'] ?? 'pendiente';
+
             // Determinar el estado inicial del pago
-            $estado_pago = (!empty($datos['monto_depositado']) && $datos['monto_depositado'] > 0) 
-                            ? 'parcial' 
-                            : 'pendiente';
+            $monto_depo = $datos['monto_depositado'] ?? 0;
+            $precio_total = $datos['precio_total_viaje'];
 
-            // 1. Insertar la reserva
+            $estado_pago = ($monto_depo > 0) ? 'parcial' : 'pendiente';
+            if ($monto_depo >= $precio_total && $precio_total > 0) {
+                $estado_pago = 'pagado';
+            }
+
+            // 1. Insertar la reserva (SIN grupo_id, ya no existe en esta tabla)
             $reserva_id = DB::table('reservas')->insertGetId([
                 'codigo_reserva'     => $codigo_reserva,
                 'cliente_id'         => $datos['cliente_id'],
                 'destino_id'         => $datos['destino_id'],
                 'user_id'            => $usuario_id,
                 'tipo'               => 'individual',
+                'fecha_reserva'      => $datos['fecha_reserva'],
                 'fecha_viaje'        => $datos['fecha_viaje'],
-                'precio_total_viaje' => $datos['precio_total_viaje'],
-                'estado'             => 'pendiente',
-                'estado_pago'        => $estado_pago, // Lo ponemos en parcial si pagó algo
+                'precio_total_viaje' => $precio_total,
+                'estado'             => $estado_reserva,
+                'estado_pago'        => $estado_pago,
                 'created_at'         => $fecha_actual,
                 'updated_at'         => $fecha_actual
             ]);
 
-            // 2. LÓGICA DEL PRIMER PAGO: Si el usuario llenó el monto, lo guardamos
-            if (!empty($datos['monto_depositado']) && $datos['monto_depositado'] > 0) {
+            // 2. LÓGICA DEL PRIMER PAGO: Si hay monto, insertamos en la tabla de pagos
+            if ($monto_depo > 0) {
                 DB::table('pagos')->insert([
-                    'reserva_id' => $reserva_id,
-                    'cliente_id' => $datos['cliente_id'],
-                    'user_id'    => $usuario_id,
-                    'monto'      => $datos['monto_depositado'],
-                    'metodo'     => $datos['metodo_pago'] ?? 'Efectivo',
-                    'fecha_pago' => $fecha_actual,
-                    'created_at' => $fecha_actual,
-                    'updated_at' => $fecha_actual
+                    'reserva_id'       => $reserva_id,
+                    'cliente_id'       => $datos['cliente_id'],
+                    'user_id'          => $usuario_id,
+                    'monto_depositado' => $monto_depo,
+                    'fecha_pago'       => $datos['fecha_pago'] ?? $fecha_actual,
+                    'metodo_pago'      => strtolower($datos['metodo_pago'] ?? 'efectivo')
                 ]);
-
-                // Si el monto depositado es igual o mayor al total, marcar como completado
-                if ($datos['monto_depositado'] >= $datos['precio_total_viaje']) {
-                    DB::table('reservas')->where('id', $reserva_id)->update(['estado_pago' => 'pagado']);
-                }
             }
-
             return $codigo_reserva;
         });
     }
-    
 
     /**
      * Función privada para no repetir código de generación de IDs

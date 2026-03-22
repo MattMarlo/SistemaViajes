@@ -193,13 +193,30 @@
     </ul>
 
     <div class="user-profile">
+        @auth
         <div class="d-flex align-items-center gap-3 mb-3 user-info">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" class="rounded-circle" width="38">
+            <img src="https://ui-avatars.com/api/?name={{ auth()->user()->nombres }}&background=2563eb&color=fff" class="rounded-circle" width="38">
             <div class="overflow-hidden">
-                <p class="m-0 fw-bold text-truncate" style="font-size: 0.9rem;">Carlos Administrador</p>
-                <small class="text-muted">admin@travel.com</small>
+                <p class="m-0 fw-bold text-truncate" style="font-size: 0.9rem;">{{ auth()->user()->nombres }} {{ auth()->user()->apellidos }}</p>
+                <small class="text-muted">{{ auth()->user()->email }}</small>
             </div>
         </div>
+        <form action="{{ route('logout') }}" method="post" class="d-grid">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
+            </button>
+        </form>
+        @else
+        <div class="text-center">
+            <a href="{{ route('login') }}" class="btn btn-primary btn-sm w-100 mb-2">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+            </a>
+            <a href="{{ route('register') }}" class="btn btn-outline-primary btn-sm w-100">
+                <i class="bi bi-person-plus me-1"></i>Registrarse
+            </a>
+        </div>
+        @endauth
         <button class="btn btn-outline-danger w-100 btn-sm rounded-3">
             <i class="bi bi-box-arrow-right me-2"></i><span>Salir</span>
         </button>

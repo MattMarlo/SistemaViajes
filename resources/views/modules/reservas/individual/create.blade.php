@@ -50,14 +50,6 @@
                   </select>
                 </div>
 
-                <!-- AGENTE ASIGNADO -->
-                <div class="col-12 col-md-6">
-                  <label for="user_id" class="form-label">Agente Asignado</label>
-                  <select name="user_id" class="form-select">
-                    <option value="{{ auth()->id() }}">{{ auth()->user()->name ?? 'Administrador' }}</option>
-                  </select>
-                </div>
-
                 <!-- DATOS DEL VIAJE -->
                 <div class="col-12 mt-4">
                   <h6 class="text-primary fw-bold mb-3">Datos del Viaje</h6>
@@ -118,9 +110,9 @@
                 <div class="col-12 col-md-4">
                   <label for="metodo_pago" class="form-label">Método</label>
                   <select name="metodo_pago" class="form-select">
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="Transferencia">Transferencia</option>
-                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="transferencia">Transferencia</option>
+                    <option value="tarjeta">Tarjeta</option>
                   </select>
                 </div>
 
