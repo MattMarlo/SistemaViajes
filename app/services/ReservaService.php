@@ -16,16 +16,23 @@ class ReservaService
 
         return DB::transaction(function () use ($datos, $codigo_reserva, $fecha_actual) {
             $usuario_id = $datos['user_id'] ?? null;
-            $estado_reserva = $datos['estado'] ?? 'pendiente';
+            //$estado_reserva = $datos['estado'] ?? 'pendiente';
+            $estado_reserva = 'pendiente';
 
             // Determinar el estado inicial del pago
             $monto_depo = $datos['monto_depositado'] ?? 0;
             $precio_total = $datos['precio_total_viaje'];
 
-            $estado_pago = ($monto_depo > 0) ? 'parcial' : 'pendiente';
-            if ($monto_depo >= $precio_total && $precio_total > 0) {
-                $estado_pago = 'pagado';
-            }
+            //$estado_pago = ($monto_depo > 0) ? 'parcial' : 'pendiente';
+            //if ($monto_depo == $precio_total && $precio_total > 0) {
+               // $estado_pago = 'pagado';
+                //$estado_reserva = 'confirmada';
+           // }
+           $estados = $this->calcularEstados($monto_depo, $precio_total);
+           $estado_reserva = $estados['estado_reserva'];
+           $estado_pago = $estados['estado_pago'];
+                    
+
 
             // 1. Insertar la reserva (SIN grupo_id, ya no existe en esta tabla)
             $reserva_id = DB::table('reservas')->insertGetId([
@@ -64,5 +71,26 @@ class ReservaService
     private function generarCodigo()
     {
         return 'RES-' . strtoupper(substr(uniqid(), -6));
+    }
+    private function calcularEstados($monto_depo, $precio_total)
+    {
+        if ($monto_depo <= 0) {
+            return [
+                'estado_reserva' => 'pendiente',
+                'estado_pago' => 'pendiente'
+            ];
+        }
+
+        if ($monto_depo < $precio_total) {
+            return [
+                'estado_reserva' => 'confirmada',
+                'estado_pago' => 'parcial'
+            ];
+        }
+
+        return [
+            'estado_reserva' => 'confirmada',
+            'estado_pago' => 'pagado'
+        ];
     }
 }

@@ -84,7 +84,7 @@
                   <input type="number" step="0.01" name="precio_total_viaje" class="form-control" placeholder="0.00" required>
                 </div>
                 
-                <!--Estado reserva-->
+                <!--Estado reserva
                 <div class="col-12 col-md-6">
                     <label for="estado" class="form-label">Estado Reserva</label>
                     <select name="estado" class="form-select" required>
@@ -93,7 +93,7 @@
                         <option value="pendiente">Pendiente</option>
                         <option value="cancelada">Cancelada</option>
                     </select>
-                </div>
+                </div> -->
 
                 <!-- PRIMER PAGO (OPCIONAL) -->
                 <div class="col-12 mt-4">

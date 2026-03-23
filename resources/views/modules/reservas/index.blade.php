@@ -62,15 +62,41 @@
                             @if($res->estado_pago == 'pagado') 
                                 <span class="badge bg-success">Completado</span>
                             @elseif($res->estado_pago == 'parcial') 
-                                <span class="badge bg-warning text-dark">Parcial</span>
+                                <span class="badge bg-warning text-dark">Parcial:  {{ $res->total_depositado }}</span>
                             @else 
                                 <span class="badge bg-danger">Pendiente</span> 
                             @endif
                         </td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-outline-primary">
-                                Ver / Pagar
-                            </a>
+                        <td class="text-end"> {{-- Alineado a la derecha como en tu imagen --}}
+                            <div class="d-flex justify-content-end gap-2">
+                                
+                                {{-- CASO 1: Si es GRUPAL, mostramos botón DESGLOSE (Negro/Gris oscuro) --}}
+                                @if($res->tipo === 'grupal')
+                                    <a href="#" 
+                                    class="btn btn-sm px-3 rounded-pill text-black" 
+                                    style="background-color: #2D2D2D; border: 1px solid #444;">
+                                        Desglose
+                                    </a>
+                                @else
+                                    {{-- CASO 2: Si es INDIVIDUAL, mostramos botón VER (Gris transparente/Borde) --}}
+                                    <a href="#" 
+                                    class="btn btn-sm px-3 rounded-pill text-black-50  text-black" 
+                                    style="background-color: #9498f6; border: 1px solid #0b2dda;">
+                                        Ver
+                                    </a>
+                                @endif
+
+                                {{-- CASO 3: Botón COBRAR (Solo si es individual y falta pago) --}}
+                                {{-- Nota: Según tu imagen, los grupos no muestran "Cobrar" aquí sino en el desglose --}}
+                                @if($res->tipo !== 'grupal' && $res->estado_pago !== 'pagado')
+                                    <a href="#" 
+                                    class="btn btn-sm px-3 rounded-pill text-success fw-bold" 
+                                    style="background-color: rgba(25, 135, 84, 0.1); border: 1px solid #198754;">
+                                        Cobrar
+                                    </a>
+                                @endif
+
+                            </div>
                         </td>
                     </tr>
                     @empty

@@ -217,9 +217,7 @@
             </a>
         </div>
         @endauth
-        <button class="btn btn-outline-danger w-100 btn-sm rounded-3">
-            <i class="bi bi-box-arrow-right me-2"></i><span>Salir</span>
-        </button>
+        
     </div>
 </div>
 

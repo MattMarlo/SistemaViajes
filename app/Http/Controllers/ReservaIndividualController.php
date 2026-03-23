@@ -28,7 +28,7 @@ class ReservaIndividualController extends Controller
         $datos = $request->validate([
             'cliente_id'         => 'required|exists:clientes,id',
             'destino_id'         => 'required|exists:destinos,id',
-            'estado'             => 'nullable|in:confirmada,pendiente,cancelada',
+            //'estado'             => 'nullable|in:confirmada,pendiente,cancelada',
             'fecha_reserva'      => 'required|date',
             'fecha_viaje'        => 'required|date',
             'precio_total_viaje' => 'required|numeric|min:0',
@@ -43,7 +43,7 @@ class ReservaIndividualController extends Controller
         }
 
         $datos['user_id'] = $usuario_id;
-        $datos['estado'] = $datos['estado'] ?? 'pendiente';
+        //$datos['estado'] = $datos['estado'] ?? 'pendiente';
 
         try {
             $codigo = $this->reservaService->guardarIndividual($datos);
